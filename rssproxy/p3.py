@@ -27,7 +27,7 @@ _state = _hash(`time()`)
 try:
     import os
     _pid = `os.getpid()`
-except ImportError, AttributeError:
+except (ImportError, AttributeError):
     _pid = ''
 
 def _expand_key(key, clen):
@@ -38,7 +38,7 @@ def _expand_key(key, clen):
         seed=sha.new(key+seed).digest()
         xkey.append(seed)
     j = join(xkey,'')
-    return array ('L', j)
+    return array ('I', j)
 
 def p3_encrypt(plain,key):
     global _state
@@ -65,7 +65,7 @@ def p3_encrypt(plain,key):
     k_enc, k_auth = H('enc'+key+nonce), H('auth'+key+nonce)
     n=len(plain)                        # cipher size not counting IV
 
-    stream = array('L', plain+'0000'[n&3:]) # pad to fill 32-bit words
+    stream = array('I', plain+'0000'[n&3:]) # pad to fill 32-bit words
     xkey = _expand_key(k_enc, n+4)
     for i in xrange(len(stream)):
         stream[i] = stream[i] ^ xkey[i]
@@ -85,7 +85,7 @@ def p3_decrypt(cipher,key):
     if auth != vauth:
         raise CryptError, "invalid key or ciphertext"
 
-    stream = array('L', stream)
+    stream = array('I', stream)
     xkey = _expand_key (k_enc, n+4)
     for i in xrange (len(stream)):
         stream[i] = stream[i] ^ xkey[i]
@@ -160,5 +160,6 @@ def _test():
         pass
 
 _hmac_setup()
-_test()
-# _speed()                                # uncomment to run speed test
+if __name__ == '__main__':
+    _test()
+    _speed()
