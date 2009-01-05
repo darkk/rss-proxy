@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+{% block title %}Test page{% endblock %}
+
+{% block content %}
+<h1>Wassup!?</h1>
+<p>
+<form action="/livejournal/opml" method="POST">
+    <input name="user" type="text"/>
+    <input name="password" type="password"/>
+    <input type="submit" value="[+]"/>
+</form>
+</p>
+{% endblock %}
