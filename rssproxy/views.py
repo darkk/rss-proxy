@@ -12,17 +12,18 @@ from django.http import QueryDict, HttpResponse, HttpResponseBadRequest, HttpRes
 
 from p3 import p3_encrypt, p3_decrypt
 
-def _urlopen_digested(url, username, pw):
+def _urlopen_digested(url, username, pw, headers = {}):
     pwmgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
     # None is the default realm
     pwmgr.add_password(None, url, username, pw)
     authhandler = urllib2.HTTPDigestAuthHandler(pwmgr)
     opener = urllib2.build_opener(authhandler)
-    return opener.open(url)
+    return opener.open(urllib2.Request(url=url, headers=headers))
 
 B64_ALTCHARS = '-_'
 
-BLOCKED_HEADERS = set((
+BLOCKED_REQEST_HEADERS = set((
+    # from http://code.google.com/appengine/docs/urlfetch/fetchfunction.html
     'content-length',
     'host',
     'referer',
@@ -30,6 +31,21 @@ BLOCKED_HEADERS = set((
     'vary',
     'via',
     'x-forwarded-for',
+    # extras from http://code.google.com/p/googleappengine/issues/detail?id=342
+    'date',
+    'accept-encoding',
+    # extras from darkk
+    'keep-alive',
+    'connection',
+    ))
+
+BLOCKED_RESPONSE_HEADERS = set((
+    # from http://code.google.com/p/googleappengine/issues/detail?id=342
+    'content-encoding',
+    'content-length',
+    'date',
+    'server',
+    'transfer-encoding',
     ))
 
 def lj_opml_get(req):
@@ -70,8 +86,15 @@ def get_feed(req, code):
     if not feed or not user or not password:
         return HttpResponseBadRequest()
 
+    headers = {}
+    for header, value in req.META.items():
+        if header.startswith('HTTP'):
+            header = header.replace('_', '-').split('-', 1)[1]
+            if header.lower() not in BLOCKED_REQEST_HEADERS:
+                headers[header.title()] = value
+
     try:
-        fd = _urlopen_digested(feed, user, password)
+        fd = _urlopen_digested(feed, user, password, headers)
     except urllib2.HTTPError, e:
         # FIXME: urllib2.HTTPError MAY contain NO .read() if it has not
         #        associated file descriptor e.g. in case of failed
@@ -88,6 +111,6 @@ def get_feed(req, code):
     content = fd.read()
     resp = HttpResponse(content=content, status=fd.code)
     for header, value in fd.headers.items():
-        if not header in BLOCKED_HEADERS:
+        if not header in BLOCKED_RESPONSE_HEADERS:
             resp[header] = value
     return resp
