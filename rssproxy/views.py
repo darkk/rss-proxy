@@ -91,7 +91,7 @@ def get_feed(req, code):
 
     headers = {}
     for header, value in req.META.items():
-        if header.startswith('HTTP'):
+        if header.startswith('HTTP_'):
             header = header.replace('_', '-').split('-', 1)[1]
             if header.lower() not in BLOCKED_REQEST_HEADERS:
                 headers[header.title()] = value
