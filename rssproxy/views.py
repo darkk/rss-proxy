@@ -79,6 +79,9 @@ def lj_opml_get(req):
 
 
 def get_feed(req, code):
+    if req.method != 'GET':
+        return HttpResponseNotAllowed(['GET'])
+
     q = QueryDict(p3_decrypt(b64decode(code.encode('ascii'), B64_ALTCHARS), settings.SECRET_KEY))
     feed = q.get('feed')
     user = q.get('user')
