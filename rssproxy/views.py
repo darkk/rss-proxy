@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 from urllib import urlencode
 import urllib2
+import httplib
 from base64 import b64encode, b64decode
 import xml.etree.ElementTree as ElementTree
 
+import google.appengine.api.urlfetch_errors as urlfetch_errors
+
 from django.conf import settings
-from django.http import QueryDict, HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed
+from django.http import QueryDict, HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, HttpResponseServerError
 
 from p3 import p3_encrypt, p3_decrypt
 
@@ -70,7 +73,18 @@ def get_feed(req, code):
     try:
         fd = _urlopen_digested(feed, user, password)
     except urllib2.HTTPError, e:
+        # FIXME: urllib2.HTTPError MAY contain NO .read() if it has not
+        #        associated file descriptor e.g. in case of failed
+        #        digest authentication
         fd = e
+    except urlfetch_errors.DownloadError, e:
+        # FIXME: check for URLFetchServiceError.DEADLINE_EXCEEDED and
+        #        return 504 (httplib.GATEWAY_TIMEOUT)
+        return HttpResponseServerError(
+                status=httplib.BAD_GATEWAY,
+                content_type='text/plain',
+                content='Feed can\'t be fetched: ' + str(e))
+
     content = fd.read()
     resp = HttpResponse(content=content, status=fd.code)
     for header, value in fd.headers.items():
