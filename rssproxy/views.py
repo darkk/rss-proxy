@@ -10,7 +10,7 @@ import google.appengine.api.urlfetch_errors as urlfetch_errors
 from django.conf import settings
 from django.http import QueryDict, HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, HttpResponseServerError
 
-from p3 import p3_encrypt, p3_decrypt
+from p3 import p3_encrypt, p3_decrypt, CryptError
 
 def _urlopen_digested(url, username, pw, headers = {}):
     pwmgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
@@ -82,11 +82,13 @@ def get_feed(req, code):
     if req.method != 'GET':
         return HttpResponseNotAllowed(['GET'])
 
-    q = QueryDict(p3_decrypt(b64decode(code.encode('ascii'), B64_ALTCHARS), settings.SECRET_KEY))
-    feed = q.get('feed')
-    user = q.get('user')
-    password = q.get('password')
-    if not feed or not user or not password:
+    try:
+        q = QueryDict(p3_decrypt(b64decode(code.encode('ascii'), B64_ALTCHARS), settings.SECRET_KEY))
+        feed = q['feed']
+        user = q['user']
+        password = q['password']
+    except (TypeError, CryptError, KeyError):
+        # TypeError on b64decode failure
         return HttpResponseBadRequest()
 
     headers = {}
@@ -98,11 +100,12 @@ def get_feed(req, code):
 
     try:
         fd = _urlopen_digested(feed, user, password, headers)
+        headers = fd.headers
+        reader = fd.read
     except urllib2.HTTPError, e:
-        # FIXME: urllib2.HTTPError MAY contain NO .read() if it has not
-        #        associated file descriptor e.g. in case of failed
-        #        digest authentication
         fd = e
+        headers = fd.hdrs
+        reader = fd.read if hasattr(fd, 'read') else lambda: ''
     except urlfetch_errors.DownloadError, e:
         # FIXME: check for URLFetchServiceError.DEADLINE_EXCEEDED and
         #        return 504 (httplib.GATEWAY_TIMEOUT)
@@ -111,9 +114,8 @@ def get_feed(req, code):
                 content_type='text/plain',
                 content='Feed can\'t be fetched: ' + str(e))
 
-    content = fd.read()
-    resp = HttpResponse(content=content, status=fd.code)
-    for header, value in fd.headers.items():
+    resp = HttpResponse(content=reader(), status=fd.code)
+    for header, value in headers.items():
         if not header in BLOCKED_RESPONSE_HEADERS:
             resp[header] = value
     return resp
