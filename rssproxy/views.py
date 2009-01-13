@@ -6,6 +6,7 @@ from base64 import b64encode, b64decode
 import xml.etree.ElementTree as ElementTree
 
 import google.appengine.api.urlfetch_errors as urlfetch_errors
+import google.appengine.runtime as GAEruntime
 
 from django.conf import settings
 from django.http import QueryDict, HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, HttpResponseServerError
@@ -113,6 +114,16 @@ def get_feed(req, code):
                 status=httplib.BAD_GATEWAY,
                 content_type='text/plain',
                 content='Feed can\'t be fetched: ' + str(e))
+    except GAEruntime.DeadlineExceededError:
+        # There is bug in GAE-SDK-1.1.7 — DeadlineExceededError is not
+        # converted to DownloadError (it should be, according to code).
+        # Let's benefit from the bug :-)
+        # http://code.google.com/p/googleappengine/issues/detail?id=973
+        return HttpResponseServerError(
+                status=httplib.GATEWAY_TIMEOUT,
+                content_type='text/plain',
+                content='Feed can\'t be fetched: timeout.')
+
 
     resp = HttpResponse(content=reader(), status=fd.code)
     for header, value in headers.items():
