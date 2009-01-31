@@ -103,8 +103,8 @@ class LjLoginCheckState:
         if self.attempts > 5:
             return httplib.FORBIDDEN
 
-        self.crypted = crypt(password,
-                             b64encode(array('H', [getrandbits(16)]).tostring())[0:2])
+        salt = b64encode(array('H', [getrandbits(16)]).tostring(), altchars='./')[0:2]
+        self.crypted = crypt(password, salt)
         self.pass_is_ok = self._make_attempt(password)
         cache.add(self.cacheaddr, self, 60)
         return self.pass_is_ok
