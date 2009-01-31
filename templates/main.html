@@ -1,13 +1,13 @@
 {% extends 'layout.html' %}
-{% block title %}Test page{% endblock %}
+{% block title %}Гланге{% endblock %}
 
-{% block content %}
-<h1>Wassup!?</h1>
+{% block primaryContent %}
+<h1>RSS Proxy, что это такое?</h1>
 <p>
-<form action="/livejournal/opml" method="post">
-    <input name="user" type="text"/>
-    <input name="password" type="password"/>
-    <input type="submit" value="[+]"/>
-</form>
+Это сервис, который позволит вам добавить <a href="/livejournal">френдленту ЖЖ</a>
+или любой <a href="/generic">другой RSS-поток</a>, который требует
+аутентификации, в ваш любимый агрегатор, который к сожалению не умеет
+проводить аутентификацию, чем стррадают большинство онлайн-агрегаторов.
 </p>
+{# TODO: А еще мы умеем делать rss-поток из списка ваших новых френдов! #}
 {% endblock %}

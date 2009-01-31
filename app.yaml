@@ -4,16 +4,18 @@ runtime: python
 api_version: 1
 
 handlers:
-- url: /media
-  static_dir: media
+- url: /css
+  static_dir: static/css
 
-- url: /robots\.txt
-  static_files: robots.txt
-  upload: robots\.txt
+- url: /js
+  static_dir: static/js
 
-- url: /favicon\.ico
-  static_files: favicon.ico
-  upload: favicon\.ico
+- url: /img
+  static_dir: static/img
+
+- url: /(robots\.txt|favicon\.ico)
+  static_files: static/\1
+  upload: static/(robots\.txt|favicon\.ico)
 
 - url: /.*
   script: common/appenginepatch/main.py

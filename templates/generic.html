@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+{% block title %}для других{% endblock %}
+                        
+{% block primaryContent %}
+
+<form action="/generic" method="post">
+	<p>
+	Всё просто как топор — вы вводите <label for="feed">URL фида</label>:<br/>
+	<input type="text" class="text feed" id="feed" name="feed" /><br/>
+	<label for="user">Имя пользователя</label>:<br/>
+	<input type="text" class="text" id="user" name="user" /><br/>
+	<label for="password">Пароль</label>:<br/>
+	<input type="password" class="text" id="password" name="password" /><br/>
+	<input type="submit" class="button" name="" value="Нажми меня!" /><br/>
+	</p>
+</form>
+
+{% endblock %}

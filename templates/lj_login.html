@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+{% block title %}для livejournal.com{% endblock %}
+
+{% block primaryContent %}
+<form action="/livejournal" method="post">
+    <fieldset class="hidden">
+        <input type="hidden" name="action" value="login" />
+    </fieldset>
+
+    <p>
+    Для того, чтоб настроить ваш OPML-файл, который в потом импортируете в
+    свой RSS-аггрегатор, нам нужны ваши
+
+    <label for="ljuser">имя в ЖЖ</label>{% if bad_ljuser %},
+    но вы ввели что-то странное, давайте повторим попытку{% endif %}:<br/>
+    <input type="text" class="text ljuser" id="ljuser" name="ljuser" value="{{ ljuser }}" maxlength="63" /><br/>
+
+    и <label for="password">пароль</label>{% if bad_password %},
+    но случилась беда — введённый вами пароль не подходит, давайте
+    попробуем еще раз{% endif %}:<br/>
+    <input type="password" class="text" id="password" name="password" /><br/>
+    {% if bad_gateway %}
+    К сожалению, происходят какие-то странные проблемы со связью,
+    давайте попробуем еще раз.
+    {% endif %}
+    {% if bad_guy %}
+    Вы слишком много раз без остановки пытаетесь ввести пароль — передохните
+    минутку.
+    {% endif %}
+    <input type="submit" class="button" name="" value="Поехали!" />
+    </p>
+</form>
+{% endblock %}
