@@ -300,7 +300,10 @@ def get_feed(req, code):
         if ljcut:
             content = _ljcut_nonpublic(content)
     except urllib2.HTTPError, e:
-        logging.warning('HTTPError %i while fetching feed <%s> for %s' % (e.code, feed, user))
+        # FIXME: what should happen if remote side returns permanent redirect?
+        if e.code >= 400:
+            logging.warning('HTTPError %i while fetching feed <%s> for %s' %
+                            (e.code, feed, user))
         fd = e
         headers = fd.hdrs
         content = fd.read() if hasattr(fd, 'read') else ''
