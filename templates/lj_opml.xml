@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <opml version="2.0">
+    <!-- This is OPML-file, save this file and import it into your RSS-reader. -->
     <head>
         <title>{{ ljuser }}'s LiveJournal.com reading list (filtered with rss-proxy.darkk.net.ru)</title>
         <dateCreated>{% now "r" %}</dateCreated>
