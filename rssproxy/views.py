@@ -159,7 +159,8 @@ def _lj_check_login(req):
 
 def _lj_mkpage_gen_opml(ljuser, password):
     fset = lj.get_fdata(ljuser)
-    foaf = lj.get_foaf(ljuser)
+    include_myself = bool(ljuser in fset['friends'])
+    foaf = lj.get_foaf(ljuser, include_myself)
     outlines = lj.get_opml(ljuser)
 
     ctx = {'credentials': _encrypt({'ljuser': ljuser, 'password': password})}

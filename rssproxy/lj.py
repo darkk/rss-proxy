@@ -99,7 +99,7 @@ def dnsize(user):
 
 
 class LJUser:
-    def __init__(self, nick, member_name, tagLine, image):
+    def __init__(self, nick, member_name, tagLine, image=None):
         self.login = nick
         self.name = member_name
         self.journal_name = tagLine
@@ -110,7 +110,7 @@ class LJUser:
         return baseurl(self.login)
 
 
-def get_foaf(user):
+def get_foaf(user, include_myself=False):
     """
     Returns list of friends of `user' as a dict.
     Keys are usernames, values are `LJUser' instances.
@@ -119,11 +119,12 @@ def get_foaf(user):
 
     url = baseurl(user) + '/data/foaf'
     fd = cached_urlopen(url)
-    return parse_foaf(fd)
+    return parse_foaf(fd, include_myself)
 
-def parse_foaf(fd):
+def parse_foaf(fd, include_myself=False):
     """ Parses LJ Friend-Of-A-Friend file. """
-    ns = {'foaf': '{http://xmlns.com/foaf/0.1/}'}
+    ns = {'foaf': '{http://xmlns.com/foaf/0.1/}',
+          'rdf':  '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}'}
     retval = {}
     tree = ElementTree.parse(fd)
     for el in tree.findall('/%(foaf)sPerson/%(foaf)sknows/%(foaf)sPerson' % ns):
@@ -131,6 +132,19 @@ def parse_foaf(fd):
         for tag in ('nick', 'member_name', 'tagLine', 'image'):
             kwargs[tag] = el.findtext('%s%s' % (ns['foaf'], tag))
         retval[kwargs['nick']] = LJUser(**kwargs)
+
+    if include_myself:
+        el = tree.find('/%(foaf)sPerson' % ns)
+        kwargs = {'nick':        el.findtext('%(foaf)snick' % ns),
+                  'member_name': el.findtext('%(foaf)sname' % ns),
+                  'tagLine':     u'N/A (собственный блог)'}
+        image = el.find('%(foaf)simg' % ns)
+        if image is not None:
+            # XXX: maybe, Python 2.5 bug, '{rdf}:resource' does not work
+            #      but it is expeted to work as far as I see
+            kwargs['image'] = image.get('%(rdf)sresource' % ns)
+        retval[kwargs['nick']] = LJUser(**kwargs)
+
     return retval
 
 
