@@ -144,7 +144,7 @@ def _lj_check_login(req):
     if not lj.is_valid_login(ljuser):
         return mkret({'bad_ljuser': True})
 
-    if not password:
+    if not lj.is_valid_password(password):
         return mkret({'bad_password': True})
 
     state = LjLoginCheckState(ljuser)

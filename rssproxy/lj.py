@@ -174,6 +174,15 @@ def parse_opml(fd):
 def is_valid_login(user):
     return user.replace('_', '').isalnum()
 
+def is_valid_password(password):
+    # password is 7-bit, there are more validation rules at
+    # http://www.livejournal.com/support/faqbrowse.bml?faqid=71
+    try:
+        p = str(password)
+    except UnicodeEncodeError:
+        return False
+    return p and p == password
+
 
 # vim:set tabstop=4 softtabstop=4 shiftwidth=4: 
 # vim:set expandtab: 
