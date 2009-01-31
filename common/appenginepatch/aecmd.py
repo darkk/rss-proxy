@@ -38,6 +38,7 @@ def setup_env(manage_py_env=False):
         # Add the SDK and the libraries within it to the system path.
         EXTRA_PATHS = [
             SDK_PATH,
+            os.path.join(SDK_PATH, 'lib', 'antlr3'),
             os.path.join(SDK_PATH, 'lib', 'webob'),
             os.path.join(SDK_PATH, 'lib', 'yaml', 'lib'),
         ]
