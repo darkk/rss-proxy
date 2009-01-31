@@ -1,0 +1,11 @@
+<td class="ljuser"><a href="{{ ljuser.url }}">{{ ljuser.login }}</a></td>
+<td>
+    {% if ljuser.avatar %}
+    <img src="{{ ljuser.avatar }}" alt="{{ ljuser.login }}" />
+    {% else %}
+    N/A
+    {% endif %}
+</td>
+<td>{{ ljuser.name }}</td>
+<td>{{ ljuser.journal_name }}</td>
+

@@ -33,10 +33,7 @@
         <tbody>
             {% for ljuser in mutual_friends %}
             <tr class="{% cycle 'rowA' 'rowB' %}">
-                <td class="ljuser"><a href="{{ ljuser.url }}">{{ ljuser.login }}</a></td>
-                <td><img src="{{ ljuser.avatar }}" alt="{{ ljuser.login }}" /></td>
-                <td>{{ ljuser.name }}</td>
-                <td>{{ ljuser.journal_name }}</td>
+                {% include 'lj_friends_table_body.chunk.html' %}
                 <td class="checkbox"><input type="checkbox" class="mf_read" name="read_{{ ljuser.login }}" value="1" checked="checked" /></td>
                 <td class="checkbox"><input type="checkbox" class="mf_cut" name="cut_{{ ljuser.login }}" value="1" /></td>
             </tr>
@@ -72,10 +69,7 @@
         <tbody>
             {% for ljuser in friends_of %}
             <tr class="{% cycle 'rowA' 'rowB' %}">
-                <td class="ljuser"><a href="{{ ljuser.url }}">{{ ljuser.login }}</a></td>
-                <td><img src="{{ ljuser.avatar }}" alt="{{ ljuser.login }}" /></td>
-                <td>{{ ljuser.name }}</td>
-                <td>{{ ljuser.journal_name }}</td>
+                {% include 'lj_friends_table_body.chunk.html' %}
                 <td class="checkbox"><input type="checkbox" class="fr_read" name="read_{{ ljuser.login }}" value="1" /></td>
                 <td class="checkbox"><input type="checkbox" class="fr_cut" name="cut_{{ ljuser.login }}" value="1" /></td>
             </tr>
