@@ -17,6 +17,7 @@ import google.appengine.runtime as GAEruntime
 from django.conf import settings
 from django.http import QueryDict, HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, HttpResponseNotAllowed, HttpResponseServerError
 from django.shortcuts import render_to_response
+from django.template.loader import render_to_string
 from django.core.cache import cache
 
 from p3 import p3_encrypt, p3_decrypt, CryptError
@@ -209,7 +210,10 @@ def _lj_gen_opml(req):
                       'htmlURL': o.htmlURL,
                       'text':    o.text})
     ctx['feeds'] = feeds
-    return render_to_response('lj_opml.xml', ctx, mimetype='text/xml')
+    content = render_to_string('lj_opml.xml', ctx)
+    resp = HttpResponse(content_type='text/xml', content=content)
+    resp['Content-Disposition'] = 'attachment; filename="livejournal.opml"'
+    return resp
 
 
 
