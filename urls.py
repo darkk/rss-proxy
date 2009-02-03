@@ -1,8 +1,14 @@
 ﻿# -*- coding: utf-8 -*-
 from django.conf.urls.defaults import *
+from rssproxy.news import SiteNews
 
 urlpatterns = patterns('',
     (r'^feed/(?P<code>[-_=a-zA-Z0-9]*)', 'rssproxy.views.get_feed'),
+
+    (r'^feeds/(?P<url>.*)$', 'django.contrib.syndication.views.feed',
+        {'feed_dict': {'sitenews': SiteNews}}),
+
+    (r'^sitenews$', 'rssproxy.news.sitenews'),
 
     # FIXME: obsolete
     (r'^livejournal/opml$', 'rssproxy.views.lj_opml_get'),

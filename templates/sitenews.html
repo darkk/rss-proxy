@@ -1,0 +1,10 @@
+{% extends 'layout.html' %}
+{% block title %}Новости{% endblock %}
+
+{% block primaryContent %}
+{% for item in news %}
+<a name="{{ item.pubdate|date:"Ymd" }}"></a>
+<h2>{{ item.pubdate|date:"Y.m.d" }}: {{ item.title }}</h2>
+{{ item.description|safe }}
+{% endfor %}
+{% endblock %}
