@@ -267,8 +267,14 @@ def generic_mkfeed(req):
         return HttpResponseNotAllowed(['GET', 'POST'])
 
 
-def _ljcut_nonpublic(content):
-    chunk = ElementTree.XML(content)
+def _ljcut_nonpublic(content, feed=None, user=None):
+    # LiveJournal can produce RSS-feed that is not UTF-8/strict if user
+    # sent some garbage to it. Garbage-in-garbage-out :-)
+    recoded = content.decode('utf-8', 'replace').encode('utf-8')
+    if recoded != content:
+        logging.warning('Invalid utf-8 data while fetching feed <%s> for %s' % (feed, user))
+
+    chunk = ElementTree.XML(recoded)
     for item in chunk.findall('.//item'):
         NS = 'http://www.livejournal.org/rss/lj/1.0/'
         nonpublic = sum(1 for s in item.findall('./{%s}security' % NS) if s.text !='public')
@@ -303,7 +309,7 @@ def get_feed(req, code):
         headers = fd.headers
         content = fd.read()
         if ljcut:
-            content = _ljcut_nonpublic(content)
+            content = _ljcut_nonpublic(content, feed, user)
     except urllib2.HTTPError, e:
         # FIXME: what should happen if remote side returns permanent redirect?
         if e.code >= 400:
