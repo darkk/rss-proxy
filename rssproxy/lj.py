@@ -170,18 +170,26 @@ def get_opml(user):
     Livejournal does not export friends-groups due to privacy reasons.
     """
     fd = cached_urlopen('http://www.livejournal.com/tools/opml.bml?' + urlencode({'user': user}))
-    return parse_opml(fd)
+    return parse_opml(fd, user)
 
-def parse_opml(fd):
+def parse_opml(fd, user=None):
     retval = {'communities': {}, 'users': {}}
-    tree = ElementTree.parse(fd)
-    for el in tree.findall('//outline'):
+    # LiveJournal can produce OPML file that is not UTF-8/strict cutting
+    # feed description at the middle of character. This hack fixes it.
+    content = fd.read().decode('utf-8', 'replace')
+    content, errors = re.subn(ur'(\btext="[^"]*\ufffd) ', ur'\1" ', content)
+    if errors:
+        logging.warning("LJ: user <%s> has bad opml file, %i errors fixed."
+                        % (user, errors))
+    content = content.encode('utf-8')
+    tree = ElementTree.XML(content)
+    for el in tree.findall('.//outline'):
         xmlURL = el.get('xmlURL', None)
         text = el.get('text', None)
         if xmlURL is not None and text is not None:
-            regexp_list = (r'(http://community.livejournal.com/([_0-9a-zA-Z]+))/',
-                           r'(http://users.livejournal.com/([_0-9a-zA-Z]+))/',
-                           r'(http://([-0-9a-zA-Z]+).livejournal.com/)')
+            regexp_list = (r'(http://community.livejournal.com/([_0-9a-zA-Z]+))/data',
+                           r'(http://users.livejournal.com/([_0-9a-zA-Z]+))/data',
+                           r'(http://([-0-9a-zA-Z]+).livejournal.com)/data')
             for i, regexp in enumerate(regexp_list):
                 m = re.match(regexp, xmlURL)
                 if m:
