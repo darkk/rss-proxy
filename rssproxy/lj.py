@@ -122,7 +122,13 @@ def get_foaf(user, include_myself=False):
     return parse_foaf(fd, include_myself)
 
 def parse_foaf(fd, include_myself=False):
-    """ Parses LJ Friend-Of-A-Friend file. """
+    """
+    Parses LJ Friend-Of-A-Friend file.
+
+    You should not rely on it's information: sometimes it's empty when
+    user has ~100 friends, sometimes it's limited to ~970 items when
+    user has ~1500..2000 friends.
+    """
     ns = {'foaf': '{http://xmlns.com/foaf/0.1/}',
           'rdf':  '{http://www.w3.org/1999/02/22-rdf-syntax-ns#}'}
     retval = {}

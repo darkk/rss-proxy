@@ -161,16 +161,20 @@ def _lj_check_login(req):
 def _lj_mkpage_gen_opml(ljuser, password):
     fset = lj.get_fdata(ljuser)
     include_myself = bool(ljuser in fset['friends'])
-    foaf = lj.get_foaf(ljuser, include_myself)
     outlines = lj.get_opml(ljuser)
 
     ctx = {'credentials': _encrypt({'ljuser': ljuser, 'password': password})}
 
+    def mkfriend_ctx(f):
+        return {'login': f,
+                'url': outlines['users'][f].htmlURL,
+                'journal_name': outlines['users'][f].text}
+
     mutual_friends = fset['friends'].intersection(fset['fans'])
-    ctx['mutual_friends'] = [foaf[f] for f in mutual_friends]
+    ctx['mutual_friends'] = [mkfriend_ctx(f) for f in mutual_friends]
 
     friends_of = fset['friends'].difference(fset['fans'])
-    ctx['friends_of'] = [foaf[f] for f in friends_of]
+    ctx['friends_of'] = [mkfriend_ctx(f) for f in friends_of]
 
     ctx['communities'] = []
     for o in outlines['communities'].itervalues():
