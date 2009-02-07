@@ -223,7 +223,7 @@ a:hover
 	display: inline;
 }
 
-#content .ljuser a, #content .ljcomm a
+#content .ljuser a, #content .ljcomm a, #content a.ljuser, #content a.ljcomm
 {
 	font-weight: bold;
 }

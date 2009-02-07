@@ -6,6 +6,28 @@ from django.shortcuts import render_to_response
 from datetime import datetime
 
 static_news = [
+    {'pubdate': datetime(2009, 2, 8),
+     'title': u'γ',
+     'description': """
+     <p>Исправлено несколько недочётов:</p>
+
+     <ul>
+     <li>Google Chrome теперь нормально скачивает OPML-файл.</li>
+     <li>Пользователи с большим числом друзей уже тоже могут получить
+     свой OPML-файл без каких-либо проблем.</li>
+     <li>Исправлена проблема с кривыми кодировками в LJ, т.к. LJ не
+     всегда отдаёт данные в корректной UTF-8.</li>
+     </ul>
+
+     <p>Также, при генерации нового OPML файла в имя потока добавляется
+     LJ-имя специально для того, чтоб визуально отличать
+     <a class="ljcomm"
+     href="http://community.livejournal.com/ru_root">ru_root</a> от
+     <a class="ljcomm"
+     href="http://community.livejournal.com/ru_sysadmins">ru_sysadmins</a>
+     и прочие <em>с виду</em> родственные сообщества.</p>
+     """},
+
     {'pubdate': datetime(2009, 01, 31),
      'title': u'β',
      'description': """
