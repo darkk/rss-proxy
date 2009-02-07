@@ -210,9 +210,15 @@ def _lj_gen_opml(req):
             xmlURL = req.build_absolute_uri('/feed/' + _encrypt(param))
         else:
             xmlURL = outlines[who].xmlURL
+
+        if o.text.lower() != who.lower():
+            text = "%s (%s)" % (o.text, who)
+        else:
+            text = o.text
+
         feeds.append({'xmlURL':  xmlURL,
                       'htmlURL': o.htmlURL,
-                      'text':    o.text})
+                      'text':    text})
     ctx['feeds'] = feeds
     content = render_to_string('lj_opml.xml', ctx)
     resp = HttpResponse(content_type='text/xml', content=content)
