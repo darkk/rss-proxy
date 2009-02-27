@@ -14,15 +14,15 @@ from array import array
 import google.appengine.api.urlfetch_errors as urlfetch_errors
 import google.appengine.runtime as GAEruntime
 
-from django.conf import settings
-from django.http import QueryDict, HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, HttpResponseNotAllowed, HttpResponseServerError
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, HttpResponseNotAllowed, HttpResponseServerError
 from django.shortcuts import render_to_response
 from django.template.loader import render_to_string
 from django.core.cache import cache
 
-from p3 import p3_encrypt, p3_decrypt, CryptError
+from p3 import CryptError
 
 import lj
+from urlcrypto import encrypt, decrypt
 
 def _urlopen_digested(url, username, pw, headers = {}):
     pwmgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
@@ -32,8 +32,6 @@ def _urlopen_digested(url, username, pw, headers = {}):
     opener = urllib2.build_opener(authhandler)
     return opener.open(urllib2.Request(url=url, headers=headers))
 
-
-B64_ALTCHARS = '-_'
 
 BLOCKED_REQEST_HEADERS = (
     # from http://code.google.com/appengine/docs/urlfetch/fetchfunction.html
@@ -163,7 +161,7 @@ def _lj_mkpage_gen_opml(ljuser, password):
     include_myself = bool(ljuser in fset['friends'])
     outlines = lj.get_opml(ljuser)
 
-    ctx = {'credentials': _encrypt({'ljuser': ljuser, 'password': password})}
+    ctx = {'credentials': encrypt({'ljuser': ljuser, 'password': password})}
 
     def mkfriend_ctx(f):
         return {'login': f,
@@ -186,7 +184,7 @@ def _lj_mkpage_gen_opml(ljuser, password):
 
 
 def _lj_gen_opml(req):
-    credentials = _decrypt(req.POST['credentials'])
+    credentials = decrypt(req.POST['credentials'])
     friends = req.POST['friends'].split()
     communities = req.POST['communities'].split()
 
@@ -207,7 +205,7 @@ def _lj_gen_opml(req):
                      'password': password}
             if req.POST.get('cut_' + who):
                 param['ljcut'] = 'body'
-            xmlURL = req.build_absolute_uri('/feed/' + _encrypt(param))
+            xmlURL = req.build_absolute_uri('/feed/' + encrypt(param))
         else:
             xmlURL = outlines[who].xmlURL
 
@@ -227,13 +225,6 @@ def _lj_gen_opml(req):
 
 
 
-def _encrypt(d):
-    """ encrypts dictionary """
-    return b64encode(p3_encrypt(urlencode(d), settings.SECRET_KEY), B64_ALTCHARS)
-
-def _decrypt(code):
-    """ decrypts string """
-    return QueryDict(p3_decrypt(b64decode(str(code), B64_ALTCHARS), settings.SECRET_KEY))
 
 
 def lj_opml_get(req):
@@ -255,7 +246,7 @@ def lj_opml_get(req):
         url = el.get('xmlURL', None)
         if url is not None:
             url += '?auth=digest'
-            feed = _encrypt({'feed': url, 'user': user, 'password': password})
+            feed = encrypt({'feed': url, 'user': user, 'password': password})
             el.set('xmlURL', req.build_absolute_uri('/feed/' + feed))
 
     return HttpResponse(
@@ -271,7 +262,7 @@ def generic_mkfeed(req):
         param = {'feed':     req.POST.get('feed'),
                  'user':     req.POST.get('feed'),
                  'password': req.POST.get('feed')}
-        feed = _encrypt(param)
+        feed = encrypt(param)
         return HttpResponseRedirect(req.build_absolute_uri('/feed/' + feed))
     else:
         return HttpResponseNotAllowed(['GET', 'POST'])
@@ -298,7 +289,7 @@ def get_feed(req, code):
         return HttpResponseNotAllowed(['GET'])
 
     try:
-        q = _decrypt(code)
+        q = decrypt(code)
         feed = q['feed']
         user = q['user']
         password = q['password']
