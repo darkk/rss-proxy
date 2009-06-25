@@ -15,9 +15,9 @@ handlers:
 - url: /img
   static_dir: static/img
 
-- url: /(robots\.txt|favicon\.ico)
+- url: /(robots\.txt|favicon\.ico|feeds/feedfetcher-without-subscribers\.xml)
   static_files: static/\1
-  upload: static/(robots\.txt|favicon\.ico)
+  upload: static/(robots\.txt|favicon\.ico|feeds/feedfetcher-without-subscribers\.xml)
 
 - url: /.*
   script: common/appenginepatch/main.py

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+	<title>Empty feed without subscribers</title>
+	<updated>2009-06-26T00:00:00Z</updated>
+	<author><name>Leonid Evdokimov</name></author>
+	<id>urn:uuid:76144bfc-4ff2-4fb3-9c57-bac3f5365a91</id>
+
+	<entry>
+		<title>This feed has no subscribers</title>
+		<link href="http://rss-proxy.darkk.net.ru/sitenews#20090626" rel="alternate"/>
+		<id>urn:uuid:c23d9407-5c54-4617-ae2f-f68efa1b2841</id>
+		<updated>2009-06-26T00:00:00Z</updated>
+		<summary type="html">
+			&lt;p&gt;This feed has no subscribers according to Feedfetcher-Google User-Agent.&lt;/p&gt;
+			&lt;p&gt;If you see this message, please, report it to &lt;a href=&quot;http://rss-proxy.darkk.net.ru/contacts&quot;&gt;rss-proxy developer&lt;/a&gt;.&lt;/p&gt;
+		</summary>
+	</entry>
+
+</feed>
+
