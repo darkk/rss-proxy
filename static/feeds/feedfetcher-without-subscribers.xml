@@ -11,10 +11,17 @@
 		<id>urn:uuid:c23d9407-5c54-4617-ae2f-f68efa1b2841</id>
 		<updated>2009-06-26T00:00:00Z</updated>
 		<summary type="html">
+			&lt;h2&gt;Русский&lt;/h2&gt;
+			&lt;p&gt;У данного RSS-потока нуль подписчиков согласно заголовку User-Agent, полученному от бота Feedfetcher-Google.&lt;/p&gt;
+			&lt;p&gt;Если вы только что подписались на этот поток, пожалуйста, подождите шесть часов — это сообщение исчезнет. Проблема известна и когда-нибудь она будет даже исправлена.&lt;/p&gt;
+			&lt;p&gt;Если и через шесть часов вы по прежнему не видите ничего, кроме этого сообщения, напишите &lt;a href=&quot;http://rss-proxy.darkk.net.ru/contacts&quot;&gt;разработчику&lt;/a&gt;.&lt;/p&gt;
+
+			&lt;hr/&gt;
+
+			&lt;h2&gt;English&lt;/h2&gt;
 			&lt;p&gt;This feed has no subscribers according to Feedfetcher-Google User-Agent.&lt;/p&gt;
-			&lt;p&gt;If you see this message, please, report it to &lt;a href=&quot;http://rss-proxy.darkk.net.ru/contacts&quot;&gt;rss-proxy developer&lt;/a&gt;.&lt;/p&gt;
+			&lt;p&gt;If you've just subscribed to this feed, please, wait for six hours and this message will disappear. This is known bug and it will be fixed some day.&lt;/p&gt;
+			&lt;p&gt;If you still see nothing but this message after six hours, please, report it to &lt;a href=&quot;http://rss-proxy.darkk.net.ru/contacts&quot;&gt;rss-proxy developer&lt;/a&gt;.&lt;/p&gt;
 		</summary>
 	</entry>
-
 </feed>
-
