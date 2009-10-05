@@ -30,7 +30,10 @@ def _urlopen_digested(url, username, pw, headers = {}):
     pwmgr.add_password(None, url, username, pw)
     authhandler = urllib2.HTTPDigestAuthHandler(pwmgr)
     opener = urllib2.build_opener(authhandler)
-    return opener.open(urllib2.Request(url=url, headers=headers))
+    req = urllib2.Request(url=url, headers=headers)
+    # FIXME: replace quick hack with something better
+    req.add_header('User-Agent', 'Rss-Proxy (http://rss-proxy.darkk.net.ru; leon+rss-proxy@darkk.net.ru)')
+    return opener.open(req)
 
 
 BLOCKED_REQEST_HEADERS = (

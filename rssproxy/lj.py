@@ -37,6 +37,9 @@ def cached_urlopen(req, *args, **kwargs):
         assert req.get_method() == 'GET'
         url = req.get_full_url()
 
+    # FIXME: replace quick hack with something better
+    req.add_header('User-Agent', 'Rss-Proxy (http://rss-proxy.darkk.net.ru; leon+rss-proxy@darkk.net.ru)')
+
     cacheaddr = PREFIX + url
     page = cache.get(cacheaddr)
 
