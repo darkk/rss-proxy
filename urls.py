@@ -10,9 +10,6 @@ urlpatterns = patterns('',
 
     (r'^sitenews$', 'rssproxy.news.sitenews'),
 
-    # FIXME: obsolete
-    (r'^livejournal/opml$', 'rssproxy.views.lj_opml_get'),
-
     (r'^$', 'django.views.generic.simple.direct_to_template',
         {'template': 'main.html'}),
 

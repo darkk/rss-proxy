@@ -224,36 +224,6 @@ def _lj_gen_opml(req):
     return resp
 
 
-
-
-
-def lj_opml_get(req):
-    # FIXME: this is legacy interface, remove it after one month of inactivity
-    if req.method != 'POST':
-        return HttpResponseNotAllowed(['POST'])
-
-    user = req.POST.get('user', '').replace('-', '_')
-    password = req.POST.get('password', '')
-
-    if not user or not password:
-        return HttpResponseBadRequest(
-                            content_type='text/plain',
-                            content='`user` or `password` is missing.')
-
-    fd = urllib2.urlopen('http://www.livejournal.com/tools/opml.bml?' + urlencode({'user': user}))
-    tree = ElementTree.parse(fd)
-    for el in tree.findall('//outline'):
-        url = el.get('xmlURL', None)
-        if url is not None:
-            url += '?auth=digest'
-            feed = encrypt({'feed': url, 'user': user, 'password': password})
-            el.set('xmlURL', req.build_absolute_uri('/feed/' + feed))
-
-    return HttpResponse(
-            content_type='application/xml',
-            content=ElementTree.tostring(tree.getroot()))
-
-
 def generic_mkfeed(req):
     if req.method == 'GET':
         return render_to_response('generic.html')
