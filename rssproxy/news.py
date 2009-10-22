@@ -6,6 +6,19 @@ from django.shortcuts import render_to_response
 from datetime import datetime
 
 static_news = [
+    {'pubdate': datetime(2009, 10, 22),
+     'title': u'ε',
+     'description': """
+     <p>В ночь с 20-го на 21-е октября без объявления войны rss-proxy был
+     вероломно забанен LiveJournal со следующей формулировкой:</p>
+     <blockquote><p>
+         Your RSS Aggregation Service violates our Acceptable Usage Policy.
+     </p></blockquote>
+
+     <p>Комментариев со стороны webmaster@livejournal.com в течение полутора
+     суток так и не поступило.</p>
+     """},
+
     {'pubdate': datetime(2009, 6, 26),
      'title': u'δ',
      'description': """
@@ -17,6 +30,7 @@ static_news = [
      <p>До оптимизации сервис исползовал ~95% квоты бесплатного трафика
      в день.</p>
      """},
+
     {'pubdate': datetime(2009, 2, 8),
      'title': u'γ',
      'description': """
