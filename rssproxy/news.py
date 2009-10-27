@@ -6,6 +6,27 @@ from django.shortcuts import render_to_response
 from datetime import datetime
 
 static_news = [
+    {'pubdate': datetime(2009, 10, 27),
+     'title': u'ζ',
+     'description': """
+     <p>Т.к. в течение недели ответа от webmaster@livejournal.com получено не
+     было, у бота был сменён User-Agent с
+     <q><code>Rss-Proxy (http://rss-proxy.darkk.net.ru;
+     leon+rss-proxy@darkk.net.ru) AppEngine-Google;
+     (+http://code.google.com/appengine; appid rss-proxy)</code></q>
+     на
+     <q><code>Rss-Proxy (http://RSS-PROXY.DARKK.NET.RU;
+     leon+rss-proxy@DARKK.NET.RU) AppEngine-Google;
+     (+http://code.google.com/appengine; appid rss-proxy)</code></q>
+     .</p>
+
+     <p>Объявляется конкурс на лучший User-Agent, который соответствует
+     <a href="http://www.livejournal.com/bots/">правилам Живого Журнала для
+     роботов</a>. Жду ваши вариации на
+     <a href="mailto:leon+rss-proxy&#64;darkk.net.ru">почту</a> или в твиттер <a
+     href="http://twitter.com/mathemonkey">@mathemonkey</a>.</p>
+     """},
+
     {'pubdate': datetime(2009, 10, 22),
      'title': u'ε',
      'description': """
