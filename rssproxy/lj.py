@@ -10,6 +10,7 @@ from StringIO import StringIO
 import xml.etree.ElementTree as ElementTree
 
 from django.core.cache import cache
+from django.conf import settings
 
 
 # LiveJournal does not support Last-Modified/If-Modified-Since validators.
@@ -38,7 +39,7 @@ def cached_urlopen(req, *args, **kwargs):
         url = req.get_full_url()
 
     # FIXME: replace quick hack with something better
-    req.add_header('User-Agent', 'Rss-Proxy (http://rss-proxy.darkk.net.ru; leon+rss-proxy@darkk.net.ru)')
+    req.add_header('User-Agent', settings.USER_AGENT)
 
     cacheaddr = PREFIX + url
     page = cache.get(cacheaddr)

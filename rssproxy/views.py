@@ -18,6 +18,7 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadReque
 from django.shortcuts import render_to_response
 from django.template.loader import render_to_string
 from django.core.cache import cache
+from django.conf import settings
 
 from p3 import CryptError
 
@@ -32,7 +33,7 @@ def _urlopen_digested(url, username, pw, headers = {}):
     opener = urllib2.build_opener(authhandler)
     req = urllib2.Request(url=url, headers=headers)
     # FIXME: replace quick hack with something better
-    req.add_header('User-Agent', 'Rss-Proxy (http://rss-proxy.darkk.net.ru; leon+rss-proxy@darkk.net.ru)')
+    req.add_header('User-Agent', settings.USER_AGENT)
     return opener.open(req)
 
 
