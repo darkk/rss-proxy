@@ -6,6 +6,14 @@ from django.shortcuts import render_to_response
 from datetime import datetime
 
 static_news = [
+    {'pubdate': datetime(2009, 11, 15),
+     'title': u'η',
+     'description': """
+     <p>И снова суп забанил rss-proxy, и снова нет комментариев
+     webmaster@livejournal.com, и снова другой User-Agent, и всё вернулось на
+     круги своя.</p>
+     """},
+
     {'pubdate': datetime(2009, 10, 27),
      'title': u'ζ',
      'description': """
