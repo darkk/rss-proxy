@@ -234,8 +234,8 @@ def generic_mkfeed(req):
     elif req.method == 'POST':
         # FIXME: rewrite using django forms & proper validation
         param = {'feed':     req.POST.get('feed'),
-                 'user':     req.POST.get('feed'),
-                 'password': req.POST.get('feed')}
+                 'user':     req.POST.get('user'),
+                 'password': req.POST.get('password')}
         feed = encrypt(param)
         return HttpResponseRedirect(req.build_absolute_uri('/feed/' + feed))
     else:
