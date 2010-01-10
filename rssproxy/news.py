@@ -129,7 +129,7 @@ class SiteNews(Feed):
         return item['pubdate']
 
     def items(self):
-        return static_news
+        return static_news[:5]
 
 def sitenews(req):
     return render_to_response('sitenews.html', {'news': static_news})
