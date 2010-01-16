@@ -6,6 +6,85 @@ from django.shortcuts import render_to_response
 from datetime import datetime
 
 static_news = [
+    {'pubdate': datetime(2010, 1, 10),
+     'title': u'Κ',
+     'description': """
+     <p>Вчера в 6 утра по Москве служба технической поддержки ЖЖ
+     наконец-таки ответила на письмо, которое я отправлял в конце
+     сентября.</p>
+     <blockquote><tt>
+     Below is an answer to your support question regarding "[bot]
+     rss-proxy.darkk.net.ru bot policy violation"
+     (http://www.livejournal.com/support/see_request.bml?id=1009080&amp;auth=bqmv).<br/>
+
+     ======================================================================<br/>
+
+     I am sorry for the delay in responding.  Your RSS proxy is a
+     violation of our Terms of Service because you are reproducing a
+     feature only available to paid account members.  For that reason,
+     we will not be removing this ban.<br/>
+
+     Did this answer your question?<br/>
+     YES:<br/>
+     http://www.livejournal.com/support/act.bml?close;1009080;bqmvzh9x2a5kgj8;3965920<br/>
+     NO:<br/>
+     http://www.livejournal.com/support/see_request.bml?id=1009080&amp;auth=bqmv<br/>
+
+     If you are having problems using any of the links in this email,
+     please try copying and pasting the *entire* link into your
+     browser's address bar rather than clicking on it.
+     </tt></blockquote>
+
+     <p>Забавно то, что ответ пришёл через 3½ месяца, забавно то, что я
+     не могу закрыть тикет, кликнув по ссылке, т.к. у меня «нет прав»,
+     забавно то, что в
+     <a href="http://www.livejournal.com/support/faqbrowse.bml?faqid=131&amp;view=full">списке
+     возможностей платного аккаунта</a> нет ни одного релевантного слова
+     про RSS, а ленту друзей в RSS можно получить только через
+     хитрозакрученные манипуляции со стилями (см. <a
+     href="http://www.livejournal.com/support/faqbrowse.bml?faqid=149">FAQ
+     №149</a>). Но не очень забавно то, что <em>формально</em> rss-proxy
+     можно притянуть за уши к 19-му пункту XVI части
+     <a href="http://www.livejournal.com/legal/tos-russian-translation.bml">ToS</a>.
+     </p>
+
+     <p>
+     Кстати, <a href="http://blog.swined.net/">swined</a>, автора <a
+     href="http://lj2rss.net.ru">lj2rss</a>, тоже из SUP подобными
+     фразами <a href="http://blog.swined.net/2009/12/blog-post.html">стращали</a>.
+     Интересно, чем всё закончилось?
+     </p>
+     """},
+
+    {'pubdate': datetime(2009, 12, 29),
+     'title': u'Ι',
+     'description': """
+     <p>Да, кстати, для истории стоит отметить, что 10-го декабря rss-proxy был
+     вынесен из бан-листа, после чего через 12 часов работы был
+     <a href="http://twitter.com/mathemonkey/status/6526055725">забанен опять</a> и
+     <a href="http://twitter.com/mathemonkey/status/6692647251">возобновил
+     работу 15-го декабря</a>. Две недели — полёт нормальный!</p>
+     """},
+
+    {'pubdate': datetime(2009, 12, 6),
+     'title': u'θ',
+     'description': """
+     <p>Новости не особо оригинальные и на этот раз — с 23-го ноября rss-proxy
+     снова <a href="http://twitter.com/mathemonkey/status/5952773825">забанен</a>
+     и на настоящий момент бан не снят.</p>
+
+     <p>Но на этот раз новостей несколько больше. После моего обращения в сообщество
+     <a class="ljcomm" href="http://community.livejournal.com/lj_ru_support/">lj_ru_support</a>
+     с вопросом: «А какой-же пункт policy я нарушаю?» — мне
+     <a href="http://twitter.com/mathemonkey/status/6058302214">порекомендовали</a>
+     обратиться к главному инженеру компании — Илье Дронову
+     (<a href="http://igrick.livejournal.com" class="ljuser">igrick</a>),
+     с которым я с 26-го ноября и веду неторопливую переписку по вопросам «кто
+     виноват?» и «что делать?».</p>
+
+     <p>Stay tuned!</p>
+     """},
+
     {'pubdate': datetime(2009, 11, 15),
      'title': u'η',
      'description': """
