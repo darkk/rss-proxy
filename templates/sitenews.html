@@ -2,6 +2,9 @@
 {% block title %}Новости{% endblock %}
 
 {% block primaryContent %}
+<div style="float: right;">
+    <a href="/feeds/sitenews"><img src="/img/rss-28x28.png" width="28" height="28" alt="RSS поток новостей" /></a>
+</div>
 {% for item in news %}
 <a name="{{ item.pubdate|date:"Ymd" }}"></a>
 <h2>{{ item.pubdate|date:"Y.m.d" }}: {{ item.title }}</h2>

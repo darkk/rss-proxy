@@ -316,3 +316,9 @@ a:hover
 {
 	clear: both;
 }
+
+/* appendix by darkk */
+a img
+{
+    border: 0;
+}
