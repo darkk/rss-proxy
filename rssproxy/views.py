@@ -258,16 +258,18 @@ def _ljcut_nonpublic(content, feed=None, user=None):
                 description.text = u'It\'s a non-public record. © rss-proxy'
     return "<?xml version='1.0' encoding='utf-8' ?>" + ElementTree.tostring(chunk, 'utf-8')
 
+def has_no_subscribers(user_agent):
+    # Compare following User-Agent's:
+    # Feedfetcher-Google; (+http://www.google.com/feedfetcher.html; feed-id=...), ...
+    # Feedfetcher-Google; (+http://www.google.com/feedfetcher.html; N subscribers; feed-id=...), ...
+    m = re.match(r'Feedfetcher-Google;.*\(\+http://www\.google\.com/feedfetcher\.html; feed-id=[0-9]+\)', user_agent)
+    return bool(m)
+
 def get_feed(req, code):
     if req.method != 'GET':
         return HttpResponseNotAllowed(['GET'])
 
-    # Compare following User-Agent's:
-    # Feedfetcher-Google; (+http://www.google.com/feedfetcher.html; feed-id=...), ...
-    # Feedfetcher-Google; (+http://www.google.com/feedfetcher.html; N subscribers; feed-id=...), ...
-    if re.match(
-            r'Feedfetcher-Google;.*\(\+http://www\.google\.com/feedfetcher\.html; feed-id=[0-9]+\)',
-            req.META.get('HTTP_USER_AGENT', '')):
+    if has_no_subscribers(req.META.get('HTTP_USER_AGENT', '')):
         logging.info('Feedfetcher and feed with no subscribers. Redirecting to empty feed.')
         return HttpResponseRedirect(req.build_absolute_uri('/feeds/feedfetcher-without-subscribers.xml'))
 
