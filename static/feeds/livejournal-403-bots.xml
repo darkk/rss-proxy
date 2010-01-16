@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+	<title>Livejournal banned RSS Proxy</title>
+	<updated>2010-01-16T00:00:00Z</updated>
+	<author><name>Leonid Evdokimov</name></author>
+	<id>urn:uuid:30cc31af-b691-4609-8cc6-8f614444fa00</id>
+
+	<entry>
+		<title>Livejournal banned RSS Proxy</title>
+		<link href="http://rss-proxy.darkk.net.ru/sitenews#20100110" rel="alternate"/>
+		<id>urn:uuid:44ee4a44-27f0-424c-974b-d01b3444b008</id>
+		<updated>2010-01-10T00:00:00Z</updated>
+		<summary type="html">
+			&lt;p&gt;
+				Данный сервис был забанен livejournal 9-го января. К 16-му января
+				ответа от &lt;a href=&quot;http://igrick.livejournal.com/&quot;&gt;Ильи Дронова&lt;/a&gt;
+				на &lt;a href=&quot;http://darkk.livejournal.com/55245.html&quot;&gt;мой вопрос
+				о дальнейшей судьбе сервиса&lt;/a&gt; не последовало.
+			&lt;/p&gt;
+
+			&lt;p&gt;
+				Если вы заинтересованы в возобновлении работоспособности данного
+				сервиса, просьба отметиться в комментариях к
+				&lt;a href=&quot;http://darkk.livejournal.com/55245.html&quot;&gt;записи в моём журнале&lt;/a&gt;.
+				Прошу прощения за возможно доставленное неудобство дублированием данной
+				записи в каждом из проксируемых потоков.
+			&lt;/p&gt;
+
+			&lt;hr/&gt;
+			&lt;p&gt;
+                Леонид Евдокимов, разработчик <a href="http://rss-proxy.darkk.net.ru">RSS Proxy</a>.
+			&lt;/p&gt;
+		</summary>
+	</entry>
+</feed>

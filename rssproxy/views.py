@@ -304,6 +304,10 @@ def get_feed(req, code):
         fd = e
         headers = fd.hdrs
         content = fd.read() if hasattr(fd, 'read') else ''
+
+        if e.code == httplib.FORBIDDEN and 'livejournal.com/bots' in content:
+            return HttpResponseRedirect(req.build_absolute_uri('/feeds/livejournal-403-bots.xml'))
+
     except urlfetch_errors.DownloadError, e:
         # FIXME: check for URLFetchServiceError.DEADLINE_EXCEEDED and
         #        return 504 (httplib.GATEWAY_TIMEOUT)
