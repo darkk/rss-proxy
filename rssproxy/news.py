@@ -6,6 +6,21 @@ from django.shortcuts import render_to_response
 from datetime import datetime
 
 static_news = [
+    {'pubdate': datetime(2010, 1, 25),
+     'title': u'λ',
+     'description': """
+     <p>В связи с сильной неопределённостью текущей политики livejournal.com
+     относительно внешних вебсервисов, работа сервиса по трансляции фидов из ЖЖ
+     временно прекращается.</p>
+
+     <p>Возможно, сервис возобновит работу после внедрения механизма
+     авторизации OAuth и уточнения политики livejournal.</p>
+
+     <p>Желающие читать френдленту в Google Reader могут использовать скрипт
+     <a href="http://github.com/darkk/ljfeed">ljfeed.py</a> для генерации
+     Atom-потока по данным из френдленты.</p>
+     """},
+
     {'pubdate': datetime(2010, 1, 10),
      'title': u'Κ',
      'description': """

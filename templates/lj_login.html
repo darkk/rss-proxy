@@ -13,12 +13,12 @@
 
     <label for="ljuser">имя в ЖЖ</label>{% if bad_ljuser %},
     но вы ввели что-то странное, давайте повторим попытку{% endif %}:<br/>
-    <input type="text" class="text ljuser" id="ljuser" name="ljuser" value="{{ ljuser }}" maxlength="63" /><br/>
+    <input disabled="disabled" type="text" class="text ljuser" id="ljuser" name="ljuser" value="{{ ljuser }}" maxlength="63" /><br/>
 
     и <label for="password">пароль</label>{% if bad_password %},
     но случилась беда — введённый вами пароль не подходит, давайте
     попробуем еще раз{% endif %}:<br/>
-    <input type="password" class="text" id="password" name="password" /><br/>
+    <input disabled="disabled" type="password" class="text" id="password" name="password" /><br/>
     {% if bad_gateway %}
     К сожалению, происходят какие-то странные проблемы со связью,
     давайте попробуем еще раз.
@@ -27,7 +27,12 @@
     Вы слишком много раз без остановки пытаетесь ввести пароль — передохните
     минутку.
     {% endif %}
-    <input type="submit" class="button" name="" value="Поехали!" />
+    <input disabled="disabled" type="submit" class="button" name="" value="Поехали!" />
+    </p>
+
+    <p>
+    Но, к сожалению, в настоящий момент данный сервис не работает с livejournal.com
+    <a href="/sitenews#20100125">с 25 января 2010</a>.
     </p>
 </form>
 {% endblock %}
