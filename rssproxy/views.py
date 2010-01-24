@@ -14,7 +14,7 @@ from array import array
 import google.appengine.api.urlfetch_errors as urlfetch_errors
 import google.appengine.runtime as GAEruntime
 
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, HttpResponseNotAllowed, HttpResponseServerError
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, HttpResponseNotAllowed, HttpResponseServerError, HttpResponseGone
 from django.shortcuts import render_to_response
 from django.template.loader import render_to_string
 from django.core.cache import cache
@@ -265,6 +265,10 @@ def has_no_subscribers(user_agent):
     m = re.match(r'Feedfetcher-Google;.*\(\+http://www\.google\.com/feedfetcher\.html; feed-id=[0-9]+\)', user_agent)
     return bool(m)
 
+def is_livejournal(url):
+    m = re.match(r'http://(?:[a-zA-Z0-9_-]*\.)?livejournal.com/', url)
+    return bool(m)
+
 def get_feed(req, code):
     if req.method != 'GET':
         return HttpResponseNotAllowed(['GET'])
@@ -282,6 +286,9 @@ def get_feed(req, code):
     except (TypeError, CryptError, KeyError):
         # TypeError on b64decode failure
         return HttpResponseBadRequest()
+
+    if is_livejournal(feed):
+        return HttpResponseGone()
 
     headers = {}
     for header, value in req.META.items():
